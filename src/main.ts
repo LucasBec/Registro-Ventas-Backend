@@ -5,7 +5,7 @@ import { HttpErrorFilter } from './filters/http-error.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: 'https://registro-ventas-frontend.vercel.app',
+    origin: 'http://localhost:4200',
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization'
