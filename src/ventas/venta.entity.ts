@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Cuota } from '../cuotas/cuota.entity';
 
 @Entity()
 export class Venta {
@@ -28,4 +29,7 @@ export class Venta {
 
   @Column({ default: false })
   confirmada: boolean;
+
+  @OneToMany(() => Cuota, (cuota) => cuota.venta, { cascade: true, eager: true })
+  cuotas: Cuota[];
 }

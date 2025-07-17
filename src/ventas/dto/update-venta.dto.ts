@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateVentaDto } from './create-venta.dto';
+import { IsArray, IsOptional, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { UpdateCuotaDto } from '../../cuotas/dto/update-cuota.dto';
 
-export class UpdateVentaDto extends PartialType(CreateVentaDto) {}
+export class UpdateVentaDto {
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => UpdateCuotaDto)
+  cuotas?: UpdateCuotaDto[];
+}
