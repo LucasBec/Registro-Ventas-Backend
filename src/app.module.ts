@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VentasModule } from './ventas/ventas.module';
 import { ConfigModule } from '@nestjs/config';
+import { CuotasService } from './cuotas/cuotas.service';
+import { CuotasController } from './cuotas/cuotas.controller';
+import { Cuota } from './cuotas/cuota.entity';
+import { Venta } from './ventas/venta.entity';
 
 @Module({
   imports: [
@@ -18,6 +22,9 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
     }),
     VentasModule,
+    TypeOrmModule.forFeature([Cuota, Venta]),
   ],
+  providers: [CuotasService],
+  controllers: [CuotasController],
 })
 export class AppModule {}

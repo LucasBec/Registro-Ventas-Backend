@@ -5,7 +5,7 @@ import { HttpErrorFilter } from './filters/http-error.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://srv907692.hstgr.cloud', 'https://srv907692.hstgr.cloud'],
+    origin: ['http://srv907692.hstgr.cloud', 'https://srv907692.hstgr.cloud', 'http://localhost:4200'],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization'
