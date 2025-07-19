@@ -9,9 +9,6 @@ export class Cuota {
   @Column()
   numeroCuota: number;
 
-  @Column({ type: 'date' })
-  fechaVencimiento: Date;
-
   @Column({ type: 'date', nullable: true })
   fechaPago: Date;
 
