@@ -45,6 +45,11 @@ export class VentasService {
     const venta = await this.ventaRepo.findOne({
       where: { id },
       relations: ['cuotas'],
+      order: {
+        cuotas: {
+          numeroCuota: 'ASC',
+        },
+      },
     });
   
     if (!venta) {
