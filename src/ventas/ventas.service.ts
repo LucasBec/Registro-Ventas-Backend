@@ -11,9 +11,6 @@ export class VentasService {
   constructor(
     @InjectRepository(Venta)
     private ventaRepo: Repository<Venta>,
-
-    @InjectRepository(Cuota)
-    private cuotaRepo: Repository<Cuota>
   ) {}
 
   async createVenta(dto: CreateVentaDto): Promise<Venta> {
@@ -44,53 +41,15 @@ export class VentasService {
   async update(id: number, updateVentaDto: UpdateVentaDto) {
     const venta = await this.ventaRepo.findOne({
       where: { id },
-      relations: ['cuotas'],
-      order: {
-        cuotas: {
-          numeroCuota: 'ASC',
-        },
-      },
     });
   
     if (!venta) {
       throw new NotFoundException('Venta no encontrada');
     }
+    
     Object.assign(venta, updateVentaDto);
     await this.ventaRepo.save(venta);
-  
-    if (updateVentaDto.cuotas) {
-      const cuotasEnviadas = updateVentaDto.cuotas;
-      const cuotasActuales = venta.cuotas || [];
-  
-      const idsEnviados = cuotasEnviadas.filter(c => c.id).map(c => c.id);
-  
-      // Eliminar cuotas no pagadas que ya no están
-      const cuotasAEliminar = cuotasActuales.filter(cuota =>
-        !cuota.pagada && !idsEnviados.includes(cuota.id),
-      );
-  
-      for (const cuota of cuotasAEliminar) {
-        await this.cuotaRepo.delete(cuota.id);
-      }
-
-      for (const cuotaDto of cuotasEnviadas) {
-        if (cuotaDto.id) {
-          await this.cuotaRepo.update(cuotaDto.id, {
-            ...cuotaDto,
-          });
-        } else {
-          const nuevaCuota = this.cuotaRepo.create({
-            ...cuotaDto,
-            venta: { id: venta.id },
-          });
-          await this.cuotaRepo.save(nuevaCuota);
-        }
-      }
-    }
-    return this.ventaRepo.findOne({
-      where: { id },
-      relations: ['cuotas'],
-    });
+    return venta;
   }
   
   async delete(id: number): Promise<void> {

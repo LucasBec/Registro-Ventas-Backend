@@ -42,9 +42,6 @@ export class VentasController {
 
   @Put(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateVentaDto) {
-    if (body.cuotas && body.cuotas.length > 12) {
-      throw new Error('No se pueden registrar más de 12 cuotas');
-    }
     return this.ventasService.update(id, body);
   }
 

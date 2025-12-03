@@ -1,12 +1,41 @@
-import { IsArray, IsOptional, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { UpdateCuotaDto } from '../../cuotas/dto/update-cuota.dto';
+import {
+  IsString,
+  IsOptional,
+  IsDecimal,
+  IsDateString,
+  IsBoolean,
+} from 'class-validator';
 
 export class UpdateVentaDto {
+  @IsOptional()
+  @IsString()
+  comprador?: string;
 
   @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => UpdateCuotaDto)
-  cuotas?: UpdateCuotaDto[];
+  @IsString()
+  modelo?: string;
+
+  @IsOptional()
+  @IsDecimal()
+  precioVenta?: number;
+
+  @IsOptional()
+  @IsDecimal()
+  precioCompra?: number;
+
+  @IsOptional()
+  @IsString()
+  formaPago?: string;
+
+  @IsOptional()
+  @IsDateString()
+  fecha?: Date;
+
+  @IsOptional()
+  @IsString()
+  plataforma?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  confirmada?: boolean;
 }
